@@ -1,0 +1,48 @@
+spring:
+  datasource:
+    # url:
+    # username:
+    # password:
+    url: ${vcap.services.hana-schema.credentials.url}
+    username: ${vcap.services.hana-schema.credentials.user}
+    password: ${vcap.services.hana-schema.credentials.password}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming_strategy: org.hibernate.cfg.EJB3NamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.HANAColumnStoreDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        show_sql: true
+        format_sql: true
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: https://discoveryservice.cfapps.ap12.hana.ondemand.com/eureka
+  instance:
+    instance-id:  ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+# hana.url = ${vcap.services.hana_migration.credentials.url}
+# hana.user = ${vcap.services.hana_migration.credentials.user}
+# hana.password = ${vcap.services.hana_migration.credentials.password}
+
+# spring.jpa.hibernate.ddl-auto=update
+# spring.jpa.hibernate.naming_strategy=org.hibernate.cfg.EJB3NamingStrategy
+# spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.HANAColumnStoreDialect
+# spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+
+
+
+
+
+# spring.jpa.hibernate.ddl-auto=create-drop
+# spring.jpa.hibernate.naming_strategy=org.hibernate.cfg.EJB3NamingStrategy
+# spring.jpa.properties.hibernate.show_sql: true
+# spring.jpa.properties.hibernate.format_sql: true
+# spring.h2.console.enabled=true

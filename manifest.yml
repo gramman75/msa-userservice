@@ -1,0 +1,9 @@
+---
+applications:
+  - name: user-service
+#    host: user-service
+    #    domain: spring-hana.cfapps.ap12.hana.ondemand.com
+    path: target/userservice-0.0.1-SNAPSHOT.jar
+    memory: 1G
+    routes:
+      - route: user-service.cfapps.ap12.hana.ondemand.com
