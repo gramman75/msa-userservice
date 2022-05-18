@@ -1,14 +1,15 @@
 package com.example.userservice.controller;
 
+import com.example.userservice.dto.RequestUser;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.core.env.Environment;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/")
 @RequiredArgsConstructor
+@Log
 public class UserController {
 
     public final Environment env;
@@ -21,6 +22,15 @@ public class UserController {
     @GetMapping("/welcome")
     public String welcome() {
         return env.getProperty("greeting.message");
+    }
+
+    @PostMapping("/user")
+    public void createUser(@RequestBody RequestUser requestUser) {
+
+        log.info("=== createUser ===");
+        log.info(requestUser.getEmail());
+        log.info(requestUser.getPwd());
+        log.info(requestUser.getName());
 
     }
 }
