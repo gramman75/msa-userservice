@@ -1,15 +1,20 @@
 package com.example.userservice.controller;
 
-import com.example.userservice.dto.RequestUser;
+import com.example.userservice.dto.UserDto;
+import com.example.userservice.vo.RequestUser;
 import com.example.userservice.model.User;
 import com.example.userservice.service.UserService;
-import lombok.NoArgsConstructor;
+import com.example.userservice.vo.ResponseUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.modelmapper.ModelMapper;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -51,4 +56,23 @@ public class UserController {
         log.info(requestUser.getName());
 
     }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<ResponseUser>> getUsers(){
+        List<UserDto> userAll = userService.findUserAll();
+        List<ResponseUser> result = new ArrayList<>();
+
+        userAll.forEach(user->{
+            result.add(modelMapper.map(user, ResponseUser.class));
+        });
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<ResponseUser> getUser(@PathVariable("userId") String userId){
+        UserDto user = userService.findUser(userId);
+        ResponseUser result = modelMapper.map(user, ResponseUser.class);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
 }
+
