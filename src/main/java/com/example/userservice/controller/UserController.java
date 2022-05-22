@@ -2,7 +2,7 @@ package com.example.userservice.controller;
 
 import com.example.userservice.dto.UserDto;
 import com.example.userservice.vo.RequestUser;
-import com.example.userservice.model.User;
+import com.example.userservice.model.UserEntity;
 import com.example.userservice.service.UserService;
 import com.example.userservice.vo.ResponseUser;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -18,14 +19,16 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/user-service")
+@RequestMapping("/")
 @RequiredArgsConstructor
 @Log
 public class UserController {
 
-    public final Environment env;
-    public final UserService userService;
-    public final ModelMapper modelMapper;
+    private final Environment env;
+    private final UserService userService;
+    private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
+
 
     @GetMapping("/health-check")
     public String status(){
@@ -39,8 +42,8 @@ public class UserController {
 
     @PostMapping("/user")
     public void createUser(@RequestBody RequestUser requestUser) {
-        User user = modelMapper.map(requestUser, User.class);
-        user.setPwd(userService.SHA256Encrypt(requestUser.getPwd()));
+        UserEntity user = modelMapper.map(requestUser, UserEntity.class);
+        user.setPwd(passwordEncoder.encode(requestUser.getPwd()));
         user.setUserId(UUID.randomUUID().toString());
 //        requestUser.setEncryptPwd(userService.SHA256Encrypt(requestUser.getPwd()));
 //        user.setUserId(UUID.randomUUID().toString());

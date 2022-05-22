@@ -1,12 +1,16 @@
 package com.example.userservice.repository;
 
-import com.example.userservice.model.User;
+import com.example.userservice.model.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.Query;
 
-public interface UserRepository extends JpaRepository<User, String> {
+import java.util.Optional;
 
-    User findByUserId(String userId);
+public interface UserRepository extends JpaRepository<UserEntity, String> {
 
+    UserEntity findByUserId(String userId);
+
+
+    UserEntity findByEmail(String username);
 
 }
