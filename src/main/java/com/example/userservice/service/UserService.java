@@ -1,5 +1,6 @@
 package com.example.userservice.service;
 
+import com.example.userservice.dto.SessionUserDto;
 import com.example.userservice.dto.UserDto;
 import com.example.userservice.model.UserEntity;
 import com.example.userservice.repository.UserRepository;
@@ -88,9 +89,20 @@ public class UserService implements UserDetailsService {
         }
 
         return User.builder()
-                .username(userEntity.getName())
+                .username(userEntity.getEmail())
                 .password(userEntity.getPwd())
                 .authorities(new ArrayList<>())
                 .build();
+    }
+
+    public SessionUserDto findDetailUser(String userName) {
+        UserEntity user = userRepository.findByEmail(userName);
+        SessionUserDto sessionUserDto = mapper.map(user, SessionUserDto.class);
+        List<String> roles = new ArrayList<>();
+        roles.add("ADMIN");
+        roles.add("BUYER");
+        sessionUserDto.setRoles(roles);
+
+        return sessionUserDto;
     }
 }

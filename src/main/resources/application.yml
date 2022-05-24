@@ -5,3 +5,7 @@ spring:
     name: user-service
 greeting:
   message: Welcome to the E-Commerce
+
+token:
+  expiration_time : 100000
+  secret: user_name
