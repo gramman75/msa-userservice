@@ -29,12 +29,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/health-check").permitAll();
         http.authorizeRequests().antMatchers("/login").permitAll();
 
-        http.authorizeRequests().antMatchers("/**")
-                .authenticated()
-//                .access("hasIpAddress('192.168.0.7')")
+        http.authorizeRequests().antMatchers("/users/**")
+//                .authenticated()
+                .access("hasIpAddress('192.168.0.7') or hasIpAddress('127.0.0.1')")
 //                .hasIpAddress("192.168.0.7")
                 .and()
                 .addFilter(getAuthenticationFilter());
+
+        http.headers().frameOptions().disable();
     }
 
     private AuthenticationFilter getAuthenticationFilter() throws Exception{

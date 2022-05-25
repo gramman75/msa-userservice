@@ -7,5 +7,5 @@ greeting:
   message: Welcome to the E-Commerce
 
 token:
-  expiration_time : 100000
+  expiration_time : 1000000
   secret: user_name
