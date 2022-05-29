@@ -3,9 +3,19 @@ spring:
     active: @activatedProperties@
   application:
     name: user-service
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
 greeting:
   message: Welcome to the E-Commerce
 
-token:
-  expiration_time : 1000000
-  secret: user_name
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, refresh, beans, busrefresh
+#token:
+#  expiration_time : 1000000
+#  secret: user_name
