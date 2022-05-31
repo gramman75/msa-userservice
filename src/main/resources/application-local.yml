@@ -9,7 +9,7 @@ server:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
       naming_strategy: org.hibernate.cfg.EJB3NamingStrategy
     properties:
       hibernate:
