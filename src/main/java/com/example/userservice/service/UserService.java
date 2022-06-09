@@ -7,7 +7,10 @@ import com.example.userservice.model.UserEntity;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.vo.ResponseOrder;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
@@ -27,6 +30,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 @Service
+@Slf4j
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -34,6 +38,7 @@ public class UserService implements UserDetailsService {
     private final RestTemplate restTemplate;
     private final Environment env;
     private final OrderServiceClient orderServiceClient;
+    private final CircuitBreakerFactory circuitBreakerFactory;
 
 
 
@@ -42,13 +47,28 @@ public class UserService implements UserDetailsService {
         UserDto userDto = mapper.map(user, UserDto.class);
 
         String orderUrl = String.format(env.getProperty("order_service.url"), userId);
+//        List<ResponseOrder> orders =  new ArrayList<>();
 
 //        ResponseEntity<List<ResponseOrder>> ordersResponse = restTemplate.exchange(orderUrl, HttpMethod.GET,
 //                null,
 //                new ParameterizedTypeReference<List<ResponseOrder>>() {
 //        });
 
-        List<ResponseOrder> orders = orderServiceClient.getOrders(userId);
+//        try{
+//            orders = orderServiceClient.getOrders(userId);
+//        } catch(Exception e){
+//            e.printStackTrace();
+//        }
+
+        log.info("Start User Service");
+
+        CircuitBreaker circuitbreaker = circuitBreakerFactory.create("circuitbreaker");
+
+        List<ResponseOrder> orders = circuitbreaker.run(() -> orderServiceClient.getOrders(user.getUserId())
+            , throwable -> {
+                    throwable.printStackTrace();
+                    return new ArrayList<ResponseOrder>();
+        });
 
 //        List<ResponseOrder> orders = ordersResponse.getBody();
         userDto.setOrders(orders);

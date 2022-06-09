@@ -12,10 +12,13 @@ greeting:
   message: Welcome to the E-Commerce
 
 management:
+  metrics:
+    tags:
+      application: ${spring.application.name}
   endpoints:
     web:
       exposure:
-        include: health, refresh, beans, busrefresh
+        include: health, refresh, beans, busrefresh, info, prometheus, metrics
 #token:
 #  expiration_time : 1000000
 #  secret: user_name
