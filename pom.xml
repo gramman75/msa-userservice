@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>userservice</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>userservice</name>
+	<artifactId>user-service</artifactId>
+	<version>1.0</version>
+	<name>user-service</name>
 	<description>User Service</description>
 	<properties>
 		<java.version>1.8</java.version>
@@ -114,7 +114,7 @@
 			<artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
 		</dependency>
 
-				<dependency>
+		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-sleuth</artifactId>
 		</dependency>
@@ -128,7 +128,11 @@
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-registry-prometheus</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+			<version>3.0.4</version>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
