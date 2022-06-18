@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests().antMatchers("/users/**")
 //                .authenticated()
-                .access("hasIpAddress('192.168.0.7') or hasIpAddress('127.0.0.1')")
+                .access("hasIpAddress('172.18.0.9') or hasIpAddress('127.0.0.1')")
 //                .hasIpAddress("192.168.0.7")
                 .and()
                 .addFilter(getAuthenticationFilter());

@@ -35,4 +35,8 @@ eureka:
       defaultZone: http://localhost:8761/eureka
   instance:
     hostname: localhost
+    prefer-ip-address: true
     instance-id:  ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+logging:
+  level:
+    com.example.userservice.client: DEBUG

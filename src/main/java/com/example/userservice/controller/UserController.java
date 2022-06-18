@@ -34,10 +34,11 @@ public class UserController {
     @GetMapping("/health-check")
     @Timed(value = "users.status", longTask = true)
     public String status(){
-        return String.format("It's Working port : %s, token secret: %s, token expiration_time: %s "
+        return String.format("It's Working port : %s, token secret: %s, token expiration_time: %s, db : %s "
                 ,env.getProperty("local.server.port")
                 ,env.getProperty("token.secret")
                 ,env.getProperty("token.expiration_time")
+                ,env.getProperty("spring.datasource.url")
         );
     }
 

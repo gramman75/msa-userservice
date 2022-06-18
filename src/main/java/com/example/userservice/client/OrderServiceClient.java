@@ -13,6 +13,6 @@ import java.util.List;
 @Component
 public interface OrderServiceClient {
 
-    @GetMapping("/order-service/{userId}/orders")
+    @GetMapping("/{userId}/orders")
     List<ResponseOrder> getOrders(@PathVariable String userId);
 }
